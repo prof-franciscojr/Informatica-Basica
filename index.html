@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Introdução ao Word — Guia do Aluno</title>
+<style>
+  :root{
+    --navy:#13284B; --wblue:#2B579A; --bright:#2E7DE0; --sky:#D6E4F7;
+    --amber:#E8A33D; --green:#2E9E6B; --ink:#1D2733; --mute:#5C6B7A;
+    --card:#F2F6FC; --line:#DCE7F5; --keybg:#1B3358; --white:#FFFFFF;
+    --shadow:0 6px 18px rgba(19,40,75,.10);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:"Segoe UI",-apple-system,BlinkMacSystemFont,Roboto,Arial,sans-serif;
+    color:var(--ink); background:#EAF1FB; line-height:1.55; padding-bottom:70px;
+  }
+  .wrap{max-width:1000px;margin:0 auto;padding:0 18px}
+
+  /* ---------- HERO ---------- */
+  header.hero{
+    background:linear-gradient(135deg,var(--navy) 0%,var(--wblue) 100%);
+    color:#fff;padding:46px 0 40px;position:relative;overflow:hidden;
+  }
+  header.hero::before,header.hero::after{
+    content:"";position:absolute;border-radius:50%;opacity:.18;
+  }
+  header.hero::before{width:280px;height:280px;background:var(--bright);top:-90px;right:-60px}
+  header.hero::after{width:200px;height:200px;background:var(--amber);bottom:-90px;left:-40px;opacity:.22}
+  .hero .badge{
+    display:inline-block;background:var(--amber);color:var(--navy);font-weight:700;
+    font-size:.8rem;padding:6px 14px;border-radius:20px;letter-spacing:.03em;margin-bottom:16px;
+  }
+  .hero h1{font-size:2.4rem;line-height:1.15;margin-bottom:10px;font-weight:800}
+  .hero p{font-size:1.12rem;color:var(--sky);max-width:640px}
+  .hero .doticon{
+    width:56px;height:56px;border-radius:14px;background:rgba(255,255,255,.15);
+    display:flex;align-items:center;justify-content:center;font-size:1.7rem;margin-bottom:18px;
+    position:relative;z-index:2;
+  }
+  .hero .inner{position:relative;z-index:2}
+
+  /* ---------- NAV / BUSCA ---------- */
+  nav.toc{
+    background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:50;
+    box-shadow:0 2px 10px rgba(19,40,75,.06);
+  }
+  nav.toc .wrap{display:flex;gap:8px;flex-wrap:wrap;align-items:center;padding:12px 18px}
+  nav.toc a{
+    text-decoration:none;color:var(--wblue);font-weight:600;font-size:.86rem;
+    padding:7px 12px;border-radius:8px;background:var(--card);transition:.15s;
+  }
+  nav.toc a:hover{background:var(--sky)}
+  .search{margin-left:auto;display:flex;align-items:center;gap:6px}
+  .search input{
+    border:1.5px solid var(--line);border-radius:8px;padding:8px 12px;font-size:.9rem;
+    width:190px;outline:none;transition:.15s;
+  }
+  .search input:focus{border-color:var(--bright)}
+
+  /* ---------- SEÇÕES ---------- */
+  section{padding:40px 0 8px}
+  .sec-head{display:flex;align-items:center;gap:14px;margin-bottom:6px}
+  .sec-num{
+    width:40px;height:40px;flex:none;border-radius:10px;background:var(--wblue);color:#fff;
+    display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.1rem;
+  }
+  h2{font-size:1.55rem;color:var(--navy);font-weight:800}
+  .sec-sub{color:var(--mute);margin:2px 0 22px 54px;font-size:1rem}
+
+  /* ---------- KEYCAP ---------- */
+  .key{
+    display:inline-flex;align-items:center;justify-content:center;
+    background:var(--keybg);color:#fff;border-radius:7px;font-weight:700;
+    font-family:"Consolas","Courier New",monospace;padding:4px 10px;font-size:.9rem;
+    box-shadow:0 2px 0 #0d1d38,0 3px 5px rgba(0,0,0,.2);min-width:34px;
+    border:1px solid #2c4a75;white-space:nowrap;
+  }
+  .key.blue{background:var(--wblue);border-color:#3d6bb5;box-shadow:0 2px 0 #1d3c6e,0 3px 5px rgba(0,0,0,.2)}
+  .plus{color:var(--mute);font-weight:700;margin:0 4px}
+  .arrow{color:var(--amber);font-weight:800;margin:0 8px}
+
+  /* ---------- CARDS DE TECLA (explicação) ---------- */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+  .kcard{
+    background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 16px 14px;
+    box-shadow:var(--shadow);display:flex;gap:13px;align-items:flex-start;
+  }
+  .kcard .kicon{
+    width:46px;height:46px;flex:none;border-radius:10px;display:flex;align-items:center;
+    justify-content:center;font-size:1.15rem;font-weight:800;color:#fff;background:var(--wblue);
+  }
+  .kcard.c2 .kicon{background:var(--bright)} .kcard.c3 .kicon{background:var(--amber)}
+  .kcard.c4 .kicon{background:var(--green)}
+  .kcard h3{font-size:1.02rem;color:var(--navy);margin-bottom:3px}
+  .kcard p{font-size:.9rem;color:var(--mute)}
+
+  /* ---------- TABELAS ---------- */
+  .tablecard{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:var(--shadow);margin-bottom:8px}
+  table{width:100%;border-collapse:collapse}
+  thead th{background:var(--wblue);color:#fff;text-align:left;padding:12px 16px;font-size:.9rem;letter-spacing:.02em}
+  thead th.amber{background:var(--amber);color:var(--navy)}
+  thead th.green{background:var(--green)}
+  tbody td{padding:11px 16px;border-top:1px solid var(--line);font-size:.94rem;vertical-align:middle}
+  tbody tr:nth-child(even){background:var(--card)}
+  tbody tr:hover{background:var(--sky)}
+  td.res{font-size:1.35rem;font-weight:800;color:var(--wblue);text-align:center;width:70px}
+  td.steps{white-space:nowrap}
+  .muted{color:var(--mute);font-size:.86rem}
+
+  /* callout */
+  .callout{
+    background:#FFF7E9;border:1px solid #F3D9A8;border-left:5px solid var(--amber);
+    border-radius:10px;padding:14px 18px;margin:18px 0;display:flex;gap:12px;align-items:flex-start;
+  }
+  .callout .ci{font-size:1.3rem;flex:none}
+  .callout b{color:#B9791A}
+  .callout.blue{background:#EDF4FF;border-color:#BCD6F5;border-left-color:var(--bright)}
+  .callout.blue b{color:var(--wblue)}
+
+  .note{font-size:.82rem;color:var(--mute);margin-top:4px}
+
+  /* footer */
+  footer{margin-top:44px;background:var(--navy);color:var(--sky);padding:26px 0;text-align:center;font-size:.9rem}
+  footer b{color:#fff}
+
+  /* print */
+  @media print{
+    nav.toc,.search{display:none}
+    body{background:#fff}
+    .kcard,.tablecard{box-shadow:none}
+    header.hero{background:var(--navy)!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    thead th,.key{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    section{page-break-inside:avoid}
+  }
+  .hidden-row{display:none!important}
+
+  /* ---------- DIVISOR DE PARTE ---------- */
+  .partband{
+    background:linear-gradient(135deg,var(--wblue) 0%,var(--navy) 100%);
+    color:#fff;border-radius:16px;padding:24px 26px;margin:14px 0 8px;
+    display:flex;gap:18px;align-items:center;box-shadow:var(--shadow);position:relative;overflow:hidden;
+  }
+  .partband.p2{background:linear-gradient(135deg,var(--green) 0%,#1d6b48 100%)}
+  .partband .pnum{
+    width:64px;height:64px;flex:none;border-radius:16px;background:rgba(255,255,255,.16);
+    display:flex;align-items:center;justify-content:center;font-size:1.5rem;font-weight:800;line-height:1;text-align:center;
+  }
+  .partband .pnum small{display:block;font-size:.62rem;font-weight:700;letter-spacing:.08em;opacity:.85;margin-top:2px}
+  .partband h2{color:#fff;font-size:1.5rem;margin-bottom:3px}
+  .partband p{color:rgba(255,255,255,.9);font-size:.98rem;margin:0}
+  .toc-part{width:100%;height:0;border-top:1px dashed var(--line);margin:2px 0;order:0}
+  nav.toc .tag{font-size:.7rem;font-weight:800;color:var(--mute);letter-spacing:.05em;padding:0 4px;align-self:center}
+
+  @media (max-width:560px){
+    .hero h1{font-size:1.8rem}
+    .search input{width:130px}
+    .sec-sub{margin-left:0}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap inner">
+    <div class="doticon">📝</div>
+    <span class="badge">GUIA DO ALUNO • INTRODUÇÃO AO WORD</span>
+    <h1>Introdução ao Word</h1>
+    <p>Guia completo em duas partes: primeiro o teclado (acentos, símbolos e atalhos) e depois o próprio Word — seções, formatação de fonte, parágrafo, layout, imagens e tabelas. Use a busca para achar rápido o que precisa.</p>
+  </div>
+</header>
+
+<nav class="toc">
+  <div class="wrap">
+    <span class="tag">PARTE 1</span>
+    <a href="#teclas">Teclas</a>
+    <a href="#acentos">Acentos</a>
+    <a href="#simbolos">Símbolos</a>
+    <a href="#atalhos">Atalhos</a>
+    <span class="tag">PARTE 2</span>
+    <a href="#word-tela">O Word</a>
+    <a href="#fonte">Fonte</a>
+    <a href="#paragrafo">Parágrafo</a>
+    <a href="#layout">Layout</a>
+    <a href="#imagens">Imagens</a>
+    <a href="#tabelas">Tabelas</a>
+    <div class="search">
+      <span>🔎</span>
+      <input id="q" type="text" placeholder="Buscar nas tabelas..." oninput="filtra(this.value)">
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+  <div class="partband">
+    <div class="pnum">1<small>PARTE</small></div>
+    <div>
+      <h2>O teclado</h2>
+      <p>Acentos, símbolos e atalhos: a base para digitar bem em qualquer programa.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 1. TECLAS PRINCIPAIS ============ -->
+<section id="teclas">
+  <div class="wrap">
+    <div class="sec-head"><div class="sec-num">1</div><h2>O que faz cada tecla</h2></div>
+    <p class="sec-sub">As teclas mais importantes para escrever no Word e o que cada uma faz.</p>
+    <div class="grid">
+      <div class="kcard c1"><div class="kicon">␣</div><div><h3>Barra de espaço</h3><p>A tecla mais longa. Aperte <b>uma vez</b> para separar palavras. Nunca use vários espaços seguidos para alinhar texto.</p></div></div>
+      <div class="kcard c2"><div class="kicon">⏎</div><div><h3>Enter</h3><p>Cria um <b>novo parágrafo</b> (pula para a linha de baixo). Dentro do mesmo parágrafo, deixe o texto quebrar sozinho.</p></div></div>
+      <div class="kcard c3"><div class="kicon">⇧</div><div><h3>Shift</h3><p>Segure junto com uma letra para escrever <b>UMA MAIÚSCULA</b>, ou o <b>símbolo de cima</b> da tecla (ex.: !, @, ?).</p></div></div>
+      <div class="kcard c4"><div class="kicon">⇪</div><div><h3>Caps Lock</h3><p><b>Trava</b> as maiúsculas: tudo sai em CAIXA ALTA. Aperte de novo para voltar ao normal. Acende uma luz no teclado.</p></div></div>
+      <div class="kcard c1"><div class="kicon">⌫</div><div><h3>Backspace</h3><p>Apaga a letra à <b>esquerda</b> do cursor (para trás). É a tecla de apagar mais usada.</p></div></div>
+      <div class="kcard c2"><div class="kicon">⌦</div><div><h3>Delete</h3><p>Apaga a letra à <b>direita</b> do cursor (para frente).</p></div></div>
+      <div class="kcard c3"><div class="kicon">Tab</div><div><h3>Tab</h3><p>Cria um <b>recuo</b> (avanço) no começo do parágrafo, ou pula entre campos e colunas.</p></div></div>
+      <div class="kcard c4"><div class="kicon">Ctrl</div><div><h3>Ctrl (Controle)</h3><p>Sozinha não faz nada. <b>Combinada</b> com uma letra, executa comandos (ex.: <span class="key blue">Ctrl</span><span class="plus">+</span><span class="key blue">C</span> copiar).</p></div></div>
+      <div class="kcard c1"><div class="kicon">Alt</div><div><h3>Alt</h3><p>Usada em combinações especiais. Com <b>Alt Gr</b> (à direita), digita o 3º símbolo de algumas teclas.</p></div></div>
+      <div class="kcard c2"><div class="kicon">↹</div><div><h3>Setas ← ↑ ↓ →</h3><p>Movem o <b>cursor</b> pelo texto sem apagar nada: uma letra ou uma linha por vez.</p></div></div>
+      <div class="kcard c3"><div class="kicon">↖</div><div><h3>Home / End</h3><p><b>Home</b> leva ao início da linha; <b>End</b> leva ao fim da linha.</p></div></div>
+      <div class="kcard c4"><div class="kicon">Esc</div><div><h3>Esc</h3><p><b>Cancela</b> uma ação ou fecha um menu ou janela que abriu sem querer.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 2. ACENTOS ============ -->
+<section id="acentos">
+  <div class="wrap">
+    <div class="sec-head"><div class="sec-num">2</div><h2>Como colocar os acentos</h2></div>
+    <p class="sec-sub">No teclado ABNT2 (o brasileiro), o acento vem em <b>dois passos</b>: toque a tecla do acento e depois a vogal.</p>
+
+    <div class="callout blue">
+      <span class="ci">💡</span>
+      <div><b>A regra dos 2 passos:</b> primeiro toque a tecla do <b>acento</b> (nada aparece ainda), depois toque a <b>vogal</b>. As duas letras viram uma só, acentuada.</div>
+    </div>
+
+    <div class="tablecard">
+      <table id="tab-acentos">
+        <thead><tr><th>Acento</th><th>Passo a passo</th><th style="text-align:center">Resultado</th><th>Onde fica a tecla</th></tr></thead>
+        <tbody>
+          <tr><td><b>Agudo ´</b></td><td class="steps"><span class="key">´</span><span class="arrow">então</span><span class="key">a</span></td><td class="res">á é í ó ú</td><td class="muted">Tecla à direita do <b>Ç</b></td></tr>
+          <tr><td><b>Til ~</b></td><td class="steps"><span class="key">~</span><span class="arrow">então</span><span class="key">a</span></td><td class="res">ã õ</td><td class="muted">Mesma tecla do <b>^</b>, use com <span class="key">Shift</span></td></tr>
+          <tr><td><b>Circunflexo ^</b></td><td class="steps"><span class="key">^</span><span class="arrow">então</span><span class="key">e</span></td><td class="res">â ê ô</td><td class="muted">Tecla acima do <b>~</b> (à esquerda do <b>1</b> em alguns)</td></tr>
+          <tr><td><b>Crase / grave `</b></td><td class="steps"><span class="key">`</span><span class="arrow">então</span><span class="key">a</span></td><td class="res">à</td><td class="muted">Mesma tecla do <b>´</b>, use com <span class="key">Shift</span></td></tr>
+          <tr><td><b>Trema ¨</b></td><td class="steps"><span class="key">Shift</span><span class="plus">+</span><span class="key">6</span><span class="arrow">então</span><span class="key">u</span></td><td class="res">ü</td><td class="muted">Raro hoje (ex.: nomes próprios)</td></tr>
+          <tr><td><b>Cedilha</b></td><td class="steps"><span class="key">Ç</span></td><td class="res">ç</td><td class="muted">Tem <b>tecla própria</b>, à direita do <b>L</b></td></tr>
+          <tr><td><b>Ç maiúsculo</b></td><td class="steps"><span class="key">Shift</span><span class="plus">+</span><span class="key">Ç</span></td><td class="res">Ç</td><td class="muted">Segure Shift e toque a tecla do Ç</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout">
+      <span class="ci">⚠️</span>
+      <div><b>Digitou o acento e ele não sumiu?</b> Se você toca <span class="key">´</span> e depois um espaço ou uma consoante, o acento aparece sozinho (´). Para acentuar, o acento precisa vir <b>logo antes de uma vogal</b>.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 3. SÍMBOLOS ============ -->
+<section id="simbolos">
+  <div class="wrap">
+    <div class="sec-head"><div class="sec-num">3</div><h2>Como digitar os símbolos</h2></div>
+    <p class="sec-sub">Muitos símbolos ficam na parte de cima das teclas. Segure <span class="key">Shift</span> e toque a tecla para obtê-los.</p>
+
+    <h3 style="color:var(--navy);margin:14px 0 8px">Símbolos com Shift (parte de cima das teclas de número)</h3>
+    <div class="tablecard">
+      <table id="tab-shift">
+        <thead><tr><th>Combinação</th><th style="text-align:center">Símbolo</th><th>Nome / uso</th></tr></thead>
+        <tbody>
+          <tr><td class="steps"><span class="key">Shift</span><span class="plus">+</span><span class="key">1</span></td><td class="res">!</td><td>Exclamação</td></tr>
+          <tr><td class="steps"><span class="key">Shift</span><span class="plus">+</span><span class="key">2</span></td><td class="res">@</td><td>Arroba (usada em e-mails)</td></tr>
+          <tr><td class="steps"><span class="key">Shift</span><span class="plus">+</span><span class="key">3</span></td><td class="res">#</td><td>Cerquilha / hashtag</td></tr>
+          <tr><td class="steps"><span class="key">Shift</span><span class="plus">+</span><span class="key">4</span></td><td class="res">$</td><td>Cifrão (dinheiro)</td></tr>
+          <tr><td class="steps"><span class="key">Shift</span><span class="plus">+</span><span class="key">5</span></td><td class="res">%</td><td>Porcentagem</td></tr>
+          <tr><td class="steps"><span class="key">Shift</span><span class="plus">+</span><span class="key">7</span></td><td class="res">&amp;</td><td>E comercial (&ldquo;e&rdquo;)</td></tr>
+          <tr><td class="steps"><span class="key">Shift</span><span class="plus">+</span><span class="key">8</span></td><td class="res">*</td><td>Asterisco (multiplicação)</td></tr>
+          <tr><td class="steps"><span class="key">Shift</span><span class="plus">+</span><span class="key">9</span></td><td class="res">(</td><td>Abre parêntese</td></tr>
+          <tr><td class="steps"><span class="key">Shift</span><span class="plus">+</span><span class="key">0</span></td><td class="res">)</td><td>Fecha parêntese</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 style="color:var(--navy);margin:20px 0 8px">Pontuação e outros sinais</h3>
+    <div class="tablecard">
+      <table id="tab-pont">
+        <thead><tr><th class="green">Combinação</th><th class="green" style="text-align:center">Símbolo</th><th class="green">Nome / uso</th></tr></thead>
+        <tbody>
+          <tr><td class="steps"><span class="key">,</span></td><td class="res">,</td><td>Vírgula</td></tr>
+          <tr><td class="steps"><span class="key">.</span></td><td class="res">.</td><td>Ponto final</td></tr>
+          <tr><td class="steps"><span class="key">Shift</span><span class="plus">+</span><span class="key">,</span></td><td class="res">&lt;</td><td>Menor que</td></tr>
+          <tr><td class="steps"><span class="key">Shift</span><span class="plus">+</span><span class="key">.</span></td><td class="res">&gt;</td><td>Maior que</td></tr>
+          <tr><td class="steps"><span class="key">Ç</span> ao lado, tecla <span class="key">;</span></td><td class="res">;</td><td>Ponto e vírgula</td></tr>
+          <tr><td class="steps"><span class="key">Shift</span><span class="plus">+</span><span class="key">;</span></td><td class="res">:</td><td>Dois-pontos</td></tr>
+          <tr><td class="steps"><span class="key">/</span></td><td class="res">/</td><td>Barra</td></tr>
+          <tr><td class="steps"><span class="key">Shift</span><span class="plus">+</span><span class="key">/</span></td><td class="res">?</td><td>Interrogação</td></tr>
+          <tr><td class="steps"><span class="key">-</span></td><td class="res">-</td><td>Hífen / traço</td></tr>
+          <tr><td class="steps"><span class="key">Shift</span><span class="plus">+</span><span class="key">-</span></td><td class="res">_</td><td>Sublinhado (underline)</td></tr>
+          <tr><td class="steps"><span class="key">=</span></td><td class="res">=</td><td>Igual</td></tr>
+          <tr><td class="steps"><span class="key">Shift</span><span class="plus">+</span><span class="key">=</span></td><td class="res">+</td><td>Mais (soma)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout blue">
+      <span class="ci">🔤</span>
+      <div><b>Não achou um símbolo?</b> No Word, vá em <b>Inserir → Símbolo → Mais Símbolos</b> para encontrar sinais especiais como © , € , ½ , ° (grau) e setas.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 4. ATALHOS ============ -->
+<section id="atalhos">
+  <div class="wrap">
+    <div class="sec-head"><div class="sec-num">4</div><h2>Principais atalhos do Word</h2></div>
+    <p class="sec-sub">Segure a tecla <span class="key">Ctrl</span> e toque a letra. <b>Atenção:</b> no Word em português alguns atalhos são diferentes do inglês.</p>
+
+    <h3 style="color:var(--navy);margin:14px 0 8px">Editar (copiar, colar, desfazer)</h3>
+    <div class="tablecard">
+      <table id="tab-edit">
+        <thead><tr><th>Atalho</th><th>O que faz</th><th>Explicação</th></tr></thead>
+        <tbody>
+          <tr><td class="steps"><span class="key blue">Ctrl</span><span class="plus">+</span><span class="key blue">C</span></td><td><b>Copiar</b></td><td class="muted">Faz uma cópia do texto selecionado (o original continua no lugar).</td></tr>
+          <tr><td class="steps"><span class="key blue">Ctrl</span><span class="plus">+</span><span class="key blue">X</span></td><td><b>Recortar</b></td><td class="muted">Move o texto: tira do lugar atual para colar em outro.</td></tr>
+          <tr><td class="steps"><span class="key blue">Ctrl</span><span class="plus">+</span><span class="key blue">V</span></td><td><b>Colar</b></td><td class="muted">Coloca o que você copiou ou recortou onde o cursor está.</td></tr>
+          <tr><td class="steps"><span class="key blue">Ctrl</span><span class="plus">+</span><span class="key blue">Z</span></td><td><b>Desfazer</b></td><td class="muted">Volta atrás no último erro. Pode apertar várias vezes.</td></tr>
+          <tr><td class="steps"><span class="key blue">Ctrl</span><span class="plus">+</span><span class="key blue">Y</span></td><td><b>Refazer</b></td><td class="muted">Refaz o que você desfez sem querer.</td></tr>
+          <tr><td class="steps"><span class="key blue">Ctrl</span><span class="plus">+</span><span class="key blue">T</span></td><td><b>Selecionar tudo</b></td><td class="muted">Marca o documento inteiro de uma vez (em PT-BR é o T).</td></tr>
+          <tr><td class="steps"><span class="key blue">Ctrl</span><span class="plus">+</span><span class="key blue">L</span></td><td><b>Localizar</b></td><td class="muted">Procura uma palavra dentro do texto.</td></tr>
+          <tr><td class="steps"><span class="key blue">Ctrl</span><span class="plus">+</span><span class="key blue">U</span></td><td><b>Substituir</b></td><td class="muted">Troca uma palavra por outra em todo o documento.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 style="color:var(--navy);margin:20px 0 8px">Formatar a fonte</h3>
+    <div class="tablecard">
+      <table id="tab-fonte">
+        <thead><tr><th class="amber">Atalho</th><th class="amber">O que faz</th><th class="amber">Explicação</th></tr></thead>
+        <tbody>
+          <tr><td class="steps"><span class="key blue">Ctrl</span><span class="plus">+</span><span class="key blue">N</span></td><td><b>Negrito</b></td><td class="muted">Deixa a letra <b>grossa</b> para destacar.</td></tr>
+          <tr><td class="steps"><span class="key blue">Ctrl</span><span class="plus">+</span><span class="key blue">I</span></td><td><b>Itálico</b></td><td class="muted">Deixa a letra <i>inclinada</i>.</td></tr>
+          <tr><td class="steps"><span class="key blue">Ctrl</span><span class="plus">+</span><span class="key blue">S</span></td><td><b>Sublinhado</b></td><td class="muted">Coloca uma linha embaixo do texto.</td></tr>
+          <tr><td class="steps"><span class="key blue">Ctrl</span><span class="plus">+</span><span class="key blue">Shift</span><span class="plus">+</span><span class="key blue">&gt;</span></td><td><b>Aumentar fonte</b></td><td class="muted">Deixa a letra maior, um passo por vez.</td></tr>
+          <tr><td class="steps"><span class="key blue">Ctrl</span><span class="plus">+</span><span class="key blue">Shift</span><span class="plus">+</span><span class="key blue">&lt;</span></td><td><b>Diminuir fonte</b></td><td class="muted">Deixa a letra menor, um passo por vez.</td></tr>
+          <tr><td class="steps"><span class="key blue">Shift</span><span class="plus">+</span><span class="key blue">F3</span></td><td><b>Maiúsculas/minúsculas</b></td><td class="muted">Alterna o texto entre MAIÚSCULA, minúscula e Primeira Maiúscula.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 style="color:var(--navy);margin:20px 0 8px">Alinhar o parágrafo e arquivo</h3>
+    <div class="tablecard">
+      <table id="tab-par">
+        <thead><tr><th class="green">Atalho</th><th class="green">O que faz</th><th class="green">Explicação</th></tr></thead>
+        <tbody>
+          <tr><td class="steps"><span class="key blue">Ctrl</span><span class="plus">+</span><span class="key blue">Q</span></td><td><b>Alinhar à esquerda</b></td><td class="muted">Texto encostado na margem esquerda (padrão).</td></tr>
+          <tr><td class="steps"><span class="key blue">Ctrl</span><span class="plus">+</span><span class="key blue">E</span></td><td><b>Centralizar</b></td><td class="muted">Texto no meio da linha. Ótimo para títulos.</td></tr>
+          <tr><td class="steps"><span class="key blue">Ctrl</span><span class="plus">+</span><span class="key blue">G</span></td><td><b>Alinhar à direita</b></td><td class="muted">Texto encostado na margem direita.</td></tr>
+          <tr><td class="steps"><span class="key blue">Ctrl</span><span class="plus">+</span><span class="key blue">J</span></td><td><b>Justificar</b></td><td class="muted">Estica o texto até as duas margens, bem uniforme.</td></tr>
+          <tr><td class="steps"><span class="key blue">Ctrl</span><span class="plus">+</span><span class="key blue">B</span></td><td><b>Salvar</b></td><td class="muted">Guarda o documento. Salve sempre!</td></tr>
+          <tr><td class="steps"><span class="key blue">Ctrl</span><span class="plus">+</span><span class="key blue">P</span></td><td><b>Imprimir</b></td><td class="muted">Abre a tela de impressão.</td></tr>
+          <tr><td class="steps"><span class="key blue">Ctrl</span><span class="plus">+</span><span class="key blue">A</span></td><td><b>Abrir</b></td><td class="muted">Abre um documento já existente.</td></tr>
+          <tr><td class="steps"><span class="key blue">Ctrl</span><span class="plus">+</span><span class="key blue">O</span></td><td><b>Novo documento</b></td><td class="muted">Cria uma folha em branco nova.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 style="color:var(--navy);margin:20px 0 8px">Selecionar e mover com o teclado</h3>
+    <div class="tablecard">
+      <table id="tab-sel">
+        <thead><tr><th>Atalho</th><th>O que faz</th></tr></thead>
+        <tbody>
+          <tr><td class="steps"><span class="key">Shift</span><span class="plus">+</span><span class="key">→</span></td><td>Seleciona uma letra para a direita</td></tr>
+          <tr><td class="steps"><span class="key">Ctrl</span><span class="plus">+</span><span class="key">Shift</span><span class="plus">+</span><span class="key">→</span></td><td>Seleciona uma palavra inteira</td></tr>
+          <tr><td class="steps"><span class="key">Shift</span><span class="plus">+</span><span class="key">↓</span></td><td>Seleciona até a linha de baixo</td></tr>
+          <tr><td class="steps"><span class="key">Ctrl</span><span class="plus">+</span><span class="key">→</span></td><td>Pula o cursor uma palavra para frente</td></tr>
+          <tr><td class="steps"><span class="key">Ctrl</span><span class="plus">+</span><span class="key">Home</span></td><td>Vai para o começo do documento</td></tr>
+          <tr><td class="steps"><span class="key">Ctrl</span><span class="plus">+</span><span class="key">End</span></td><td>Vai para o fim do documento</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PARTE 2 ================= -->
+<div class="wrap">
+  <div class="partband p2">
+    <div class="pnum">2<small>PARTE</small></div>
+    <div>
+      <h2>O Word por dentro</h2>
+      <p>As seções do programa e como formatar fonte, parágrafo e layout, além de inserir imagens e tabelas.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ---- P2.1 A TELA E AS GUIAS ---- -->
+<section id="word-tela">
+  <div class="wrap">
+    <div class="sec-head"><div class="sec-num">1</div><h2>A tela do Word e as guias</h2></div>
+    <p class="sec-sub">No topo fica a <b>Faixa de Opções</b> (a barra com os botões), dividida em <b>guias</b> (abas). Cada guia reúne ferramentas parecidas.</p>
+
+    <div class="grid">
+      <div class="kcard c1"><div class="kicon">📄</div><div><h3>Guia Arquivo</h3><p>Abrir, salvar, imprimir e criar documentos novos. É a porta de entrada e saída dos seus trabalhos.</p></div></div>
+      <div class="kcard c2"><div class="kicon">🏠</div><div><h3>Guia Início</h3><p>A mais usada. Reúne <b>Fonte</b>, <b>Parágrafo</b> e <b>Estilos</b> — tudo para formatar o texto.</p></div></div>
+      <div class="kcard c3"><div class="kicon">➕</div><div><h3>Guia Inserir</h3><p>Adiciona <b>imagens</b>, <b>tabelas</b>, formas, cabeçalho, rodapé e número de página.</p></div></div>
+      <div class="kcard c4"><div class="kicon">📐</div><div><h3>Guia Layout</h3><p>Ajusta <b>margens</b>, orientação da folha (em pé ou deitada), tamanho do papel e colunas.</p></div></div>
+      <div class="kcard c1"><div class="kicon">🎨</div><div><h3>Guia Design</h3><p>Muda a aparência geral do documento: temas de cores, fontes e marca d'água.</p></div></div>
+      <div class="kcard c2"><div class="kicon">🔎</div><div><h3>Guia Revisão</h3><p>Corretor de ortografia, contagem de palavras e comentários no texto.</p></div></div>
+    </div>
+
+    <div class="callout blue">
+      <span class="ci">💡</span>
+      <div><b>Como funciona:</b> primeiro você <b>seleciona</b> o texto, depois clica na <b>guia</b> certa e no botão que quer. Passe o mouse sobre um botão sem clicar para ver o nome dele.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ---- P2.2 FORMATAR FONTE ---- -->
+<section id="fonte">
+  <div class="wrap">
+    <div class="sec-head"><div class="sec-num">2</div><h2>Formatação de fonte</h2></div>
+    <p class="sec-sub">Na guia <b>Início</b>, o grupo <b>Fonte</b> controla a aparência das letras. Selecione o texto antes de aplicar.</p>
+
+    <div class="tablecard">
+      <table id="tab-fonte2">
+        <thead><tr><th>Ferramenta</th><th>O que faz</th><th>Atalho</th></tr></thead>
+        <tbody>
+          <tr><td><b>Tipo de fonte</b></td><td class="muted">Muda o estilo da letra (Calibri, Arial, Times New Roman…). Clique na caixa e escolha na lista.</td><td class="muted">—</td></tr>
+          <tr><td><b>Tamanho da fonte</b></td><td class="muted">Número que define o tamanho da letra. 11 e 12 são os mais comuns para textos.</td><td class="steps"><span class="key">Ctrl</span><span class="plus">+</span><span class="key">Shift</span><span class="plus">+</span><span class="key">P</span></td></tr>
+          <tr><td><b>Negrito</b></td><td class="muted">Deixa a letra grossa para destacar.</td><td class="steps"><span class="key blue">Ctrl</span><span class="plus">+</span><span class="key blue">N</span></td></tr>
+          <tr><td><b>Itálico</b></td><td class="muted">Deixa a letra inclinada.</td><td class="steps"><span class="key blue">Ctrl</span><span class="plus">+</span><span class="key blue">I</span></td></tr>
+          <tr><td><b>Sublinhado</b></td><td class="muted">Coloca uma linha embaixo do texto.</td><td class="steps"><span class="key blue">Ctrl</span><span class="plus">+</span><span class="key blue">S</span></td></tr>
+          <tr><td><b>Cor da fonte</b></td><td class="muted">Muda a cor das letras. É a letra "A" com uma barra colorida embaixo.</td><td class="muted">—</td></tr>
+          <tr><td><b>Realçar (marca-texto)</b></td><td class="muted">Pinta o fundo atrás das palavras, como uma caneta marcadora.</td><td class="muted">—</td></tr>
+          <tr><td><b>Maiúsculas/minúsculas</b></td><td class="muted">O botão "Aa" alterna entre MAIÚSCULA, minúscula e Primeira Maiúscula.</td><td class="steps"><span class="key">Shift</span><span class="plus">+</span><span class="key">F3</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ---- P2.3 PARÁGRAFO ---- -->
+<section id="paragrafo">
+  <div class="wrap">
+    <div class="sec-head"><div class="sec-num">3</div><h2>Formatação de parágrafo</h2></div>
+    <p class="sec-sub">Ainda na guia <b>Início</b>, o grupo <b>Parágrafo</b> organiza como o texto se distribui na linha. Basta o cursor estar dentro do parágrafo.</p>
+
+    <div class="tablecard">
+      <table id="tab-par2">
+        <thead><tr><th class="amber">Ferramenta</th><th class="amber">O que faz</th><th class="amber">Atalho</th></tr></thead>
+        <tbody>
+          <tr><td><b>Alinhar à esquerda</b></td><td class="muted">Texto encostado na margem esquerda. É o padrão.</td><td class="steps"><span class="key blue">Ctrl</span><span class="plus">+</span><span class="key blue">Q</span></td></tr>
+          <tr><td><b>Centralizar</b></td><td class="muted">Texto no meio da linha. Ótimo para títulos.</td><td class="steps"><span class="key blue">Ctrl</span><span class="plus">+</span><span class="key blue">E</span></td></tr>
+          <tr><td><b>Alinhar à direita</b></td><td class="muted">Texto encostado na margem direita.</td><td class="steps"><span class="key blue">Ctrl</span><span class="plus">+</span><span class="key blue">G</span></td></tr>
+          <tr><td><b>Justificar</b></td><td class="muted">Estica o texto até as duas margens, deixando tudo alinhado.</td><td class="steps"><span class="key blue">Ctrl</span><span class="plus">+</span><span class="key blue">J</span></td></tr>
+          <tr><td><b>Marcadores</b></td><td class="muted">Cria listas com bolinhas (•) para separar itens.</td><td class="muted">—</td></tr>
+          <tr><td><b>Numeração</b></td><td class="muted">Cria listas numeradas (1, 2, 3…) em ordem.</td><td class="muted">—</td></tr>
+          <tr><td><b>Recuo</b></td><td class="muted">Afasta o parágrafo da margem (avança ou recua para a direita).</td><td class="muted">—</td></tr>
+          <tr><td><b>Espaçamento entre linhas</b></td><td class="muted">Aumenta ou diminui a distância entre as linhas (1,0 / 1,5 / 2,0).</td><td class="muted">—</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout">
+      <span class="ci">📏</span>
+      <div><b>Trabalhos escolares:</b> costuma-se usar fonte <b>Arial ou Times New Roman 12</b>, espaçamento <b>1,5</b> e texto <b>justificado</b>. Confirme sempre o que a sua escola pede.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ---- P2.4 LAYOUT ---- -->
+<section id="layout">
+  <div class="wrap">
+    <div class="sec-head"><div class="sec-num">4</div><h2>Layout da página</h2></div>
+    <p class="sec-sub">Na guia <b>Layout</b> você ajusta a folha inteira: margens, orientação e tamanho do papel.</p>
+
+    <div class="grid">
+      <div class="kcard c1"><div class="kicon">⬜</div><div><h3>Margens</h3><p>O espaço em branco nas bordas da folha. "Normal" serve para quase tudo; a escola pode pedir margens específicas.</p></div></div>
+      <div class="kcard c2"><div class="kicon">🔄</div><div><h3>Orientação</h3><p><b>Retrato</b> (em pé) é o normal. <b>Paisagem</b> (deitada) é útil para tabelas largas.</p></div></div>
+      <div class="kcard c3"><div class="kicon">📃</div><div><h3>Tamanho</h3><p>Escolhe o papel: <b>A4</b> é o mais usado no Brasil. Carta é comum nos EUA.</p></div></div>
+      <div class="kcard c4"><div class="kicon">📊</div><div><h3>Colunas</h3><p>Divide o texto em 2 ou mais colunas, como um jornal ou folheto.</p></div></div>
+      <div class="kcard c1"><div class="kicon">↵</div><div><h3>Quebra de página</h3><p>Começa uma página nova sem apertar Enter várias vezes. Atalho: <span class="key">Ctrl</span><span class="plus">+</span><span class="key">Enter</span>.</p></div></div>
+      <div class="kcard c2"><div class="kicon">🔢</div><div><h3>Número de página</h3><p>Fica na guia <b>Inserir</b>. Numera as páginas automaticamente no rodapé ou cabeçalho.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ---- P2.5 INSERIR IMAGENS ---- -->
+<section id="imagens">
+  <div class="wrap">
+    <div class="sec-head"><div class="sec-num">5</div><h2>Inserir imagens</h2></div>
+    <p class="sec-sub">Passo a passo para colocar uma figura no documento (guia <b>Inserir</b>).</p>
+
+    <div class="tablecard">
+      <table id="tab-img">
+        <thead><tr><th class="green">Passo</th><th class="green">O que fazer</th></tr></thead>
+        <tbody>
+          <tr><td class="res" style="color:var(--green)">1</td><td>Clique no ponto do texto onde a imagem deve aparecer (posicione o cursor).</td></tr>
+          <tr><td class="res" style="color:var(--green)">2</td><td>Abra a guia <b>Inserir</b> e clique em <b>Imagens</b>.</td></tr>
+          <tr><td class="res" style="color:var(--green)">3</td><td>Escolha <b>Este Dispositivo</b> para uma foto sua, ou <b>Imagens Online</b> para buscar na internet.</td></tr>
+          <tr><td class="res" style="color:var(--green)">4</td><td>Encontre o arquivo, selecione e clique em <b>Inserir</b>.</td></tr>
+          <tr><td class="res" style="color:var(--green)">5</td><td>Arraste as <b>bolinhas dos cantos</b> para mudar o tamanho sem deformar a figura.</td></tr>
+          <tr><td class="res" style="color:var(--green)">6</td><td>Use <b>Quebra de Texto Automática</b> para o texto contornar a imagem (ao redor, acima, atrás…).</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout">
+      <span class="ci">🖼️</span>
+      <div><b>Dica:</b> ao clicar na imagem aparece a guia <b>Formato</b>, onde você pode cortar (crop), adicionar bordas e sombras, e ajustar brilho e cor.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ---- P2.6 INSERIR TABELAS ---- -->
+<section id="tabelas">
+  <div class="wrap">
+    <div class="sec-head"><div class="sec-num">6</div><h2>Inserir tabelas</h2></div>
+    <p class="sec-sub">Tabelas organizam informações em linhas e colunas. Ficam na guia <b>Inserir → Tabela</b>.</p>
+
+    <div class="tablecard">
+      <table id="tab-tab">
+        <thead><tr><th>Ação</th><th>Como fazer</th></tr></thead>
+        <tbody>
+          <tr><td><b>Criar tabela</b></td><td class="muted">Guia <b>Inserir → Tabela</b>. Arraste sobre a grade para escolher quantas linhas e colunas quer.</td></tr>
+          <tr><td><b>Digitar nas células</b></td><td class="muted">Clique dentro de um quadradinho (célula) e escreva. Use <span class="key">Tab</span> para pular para a próxima célula.</td></tr>
+          <tr><td><b>Adicionar linha/coluna</b></td><td class="muted">Clique com o <b>botão direito</b> dentro da tabela → <b>Inserir</b> → escolha acima, abaixo, à esquerda ou à direita.</td></tr>
+          <tr><td><b>Apagar linha/coluna</b></td><td class="muted">Botão direito → <b>Excluir Células</b>, e escolha o que remover.</td></tr>
+          <tr><td><b>Mudar a aparência</b></td><td class="muted">Ao clicar na tabela surge a guia <b>Design de Tabela</b>, com estilos de cores e bordas prontos.</td></tr>
+          <tr><td><b>Alinhar a tabela</b></td><td class="muted">Selecione a tabela inteira e use os alinhamentos de parágrafo (esquerda, centro, direita).</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout blue">
+      <span class="ci">⌨️</span>
+      <div><b>Atalho útil:</b> dentro da última célula da tabela, apertar <span class="key">Tab</span> cria automaticamente uma <b>nova linha</b>.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ---- DICAS FINAIS (fecha as duas partes) ---- -->
+<section id="dicas-fim">
+  <div class="wrap">
+    <div class="sec-head"><div class="sec-num">✓</div><h2>Dicas de ouro</h2></div>
+    <p class="sec-sub">Hábitos que valem para as duas partes e evitam dor de cabeça.</p>
+    <div class="grid">
+      <div class="kcard c1"><div class="kicon">💾</div><div><h3>Salve sempre</h3><p>Aperte <span class="key">Ctrl</span><span class="plus">+</span><span class="key">B</span> de vez em quando. Se faltar energia, você não perde o trabalho.</p></div></div>
+      <div class="kcard c2"><div class="kicon">🖱️</div><div><h3>Selecione antes de formatar</h3><p>Para mudar cor, tamanho ou negrito, primeiro <b>marque</b> o texto. Só depois clique no botão ou atalho.</p></div></div>
+      <div class="kcard c3"><div class="kicon">↩️</div><div><h3>Errou? Ctrl + Z</h3><p>Desfazer resolve quase tudo. Não tenha medo de testar os botões e explorar o programa.</p></div></div>
+      <div class="kcard c4"><div class="kicon">🔴</div><div><h3>Confira o corretor</h3><p>Linhas onduladas <b>vermelhas</b> avisam possíveis erros de ortografia. Clique com o botão direito para ver sugestões.</p></div></div>
+    </div>
+
+    <div class="callout blue" style="margin-top:22px">
+      <span class="ci">🖨️</span>
+      <div><b>Quer levar impresso?</b> Aperte <span class="key">Ctrl</span><span class="plus">+</span><span class="key">P</span> nesta página para imprimir este guia inteiro em papel.</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <b>Introdução ao Word — Guia do Aluno</b> — material de apoio para iniciantes.<br>
+    Pratique um pouco todos os dias: só se aprende usando. ✍️
+  </div>
+</footer>
+
+<script>
+  // Busca: filtra as linhas de TODAS as tabelas pelo texto digitado
+  function filtra(termo){
+    termo = (termo||"").trim().toLowerCase();
+    document.querySelectorAll("table tbody tr").forEach(function(tr){
+      var txt = tr.textContent.toLowerCase();
+      if(termo === "" || txt.indexOf(termo) !== -1){
+        tr.classList.remove("hidden-row");
+      } else {
+        tr.classList.add("hidden-row");
+      }
+    });
+  }
+</script>
+</body>
+</html>
